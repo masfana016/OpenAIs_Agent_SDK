@@ -2,16 +2,11 @@ import os
 from dotenv import load_dotenv
 from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel
 from agents.run import RunConfig
-from pydantic import BaseModel
 import asyncio
 
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 
-class AgentContext(BaseModel):
-    clientId: str
-    clientName: str
-    clientPhone: str
 
 
 client = AsyncOpenAI(api_key=api_key, base_url="https://generativelanguage.googleapis.com/v1beta/openai/",)
@@ -23,7 +18,7 @@ config = RunConfig(model = model,
                    tracing_disabled = True
                    )
 
-agent = Agent[AgentContext](name="My Agent", instructions="You are a helpful assistant that can answer questions and help with tasks.", model = model)
+agent = Agent(name="My Agent", instructions="You are a helpful assistant that can answer questions and help with tasks.", model = model)
 
 history = []
 
@@ -34,7 +29,7 @@ async def main():
         
         history.append({"role": "user", "content": user_input})
         
-        result = await Runner.run(agent, input = history, run_config = config, context = AgentContext(clientId = "123", clientName = "John Doe", clientPhone = "1234567890"))
+        result = await Runner.run(agent, input = history, run_config = config)
         
         print(f"Response: ", result.to_input_list()[-1]['content'][0]['text'].strip())
   
