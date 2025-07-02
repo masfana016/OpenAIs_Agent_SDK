@@ -1,17 +1,13 @@
 import os
 from dotenv import load_dotenv
-from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel
+from dataclasses import dataclass
+from agents import Agent, Runner, AsyncOpenAI, ModelSettings, OpenAIChatCompletionsModel, function_tool, RunContextWrapper
 from agents.run import RunConfig
 from pydantic import BaseModel
 import asyncio
 
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
-
-class AgentContext(BaseModel):
-    clientId: str
-    clientName: str
-    clientPhone: str
 
 
 client = AsyncOpenAI(api_key=api_key, base_url="https://generativelanguage.googleapis.com/v1beta/openai/",)
@@ -23,7 +19,18 @@ config = RunConfig(model = model,
                    tracing_disabled = True
                    )
 
-agent = Agent[AgentContext](name="My Agent", instructions="You are a helpful assistant that can answer questions and help with tasks.", model = model)
+@dataclass
+class AgentContext:
+    clientId: str
+    clientName: str
+    clientPhone: str = 92306836495
+    
+@function_tool
+async def User_data(wrapper: RunContextWrapper[AgentContext]):
+    return f"Hello {wrapper.context.clientName}, your phone number is {wrapper.context.clientPhone}"
+
+
+agent = Agent[AgentContext](name="My Agent", instructions="You are a helpful assistant that can answer user's questions, remember the history of user conversation and help with tasks.", model = model, tools = [User_data],  model_settings=ModelSettings(temperature = 1.2, tool_choice = "auto"))
 
 history = []
 
