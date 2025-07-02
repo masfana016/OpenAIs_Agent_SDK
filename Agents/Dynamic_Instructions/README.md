@@ -45,6 +45,11 @@ The agent then responds, e.g., "Hello Bob, how can I assist you?"
 
 ## Extending
 - **Rich Context**: Add fields to UserContext (e.g., language, role) for more complex instructions.
+  ```python
+  def dynamic_instructions(context: RunContextWrapper[UserContext], agent: Agent[UserContext]) -> str:
+    user = context.context
+    return f"Greet {user.name} in {user.language}. Focus on {user.interests}."
+  ```
 - **Async Instructions**: Use an async function for fetching external data:
   ```python
   async def dynamic_instructions(context: RunContextWrapper[UserContext], agent: Agent[UserContext]) -> str:
@@ -52,6 +57,13 @@ The agent then responds, e.g., "Hello Bob, how can I assist you?"
       return f"The user's name is {user_data.name}. Help them with their questions."
   ```
 - **Conditional Logic**: Customize instructions based on user roles or other conditions.
+  ```python
+  def dynamic_instructions(context: RunContextWrapper[UserContext], agent: Agent[UserContext]) -> str:
+    user = context.context
+    if user.role == "admin":
+        return f"Provide technical details to {user.name} for system administration queries."
+    return f"Help {user.name} with basic user questions."
+  ```
 
 ## Notes
 - Ensure context.context.name is defined to avoid errors.
