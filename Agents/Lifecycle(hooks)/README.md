@@ -17,7 +17,7 @@ Both `RunHooks` and `AgentHooks` are generic classes that you can subclass to ov
 
 ### RunHooks
 
-The `RunHooks` class is used to receive callbacks for lifecycle events across all agents in a run. Subclass it and override the methods you need (AgentHooks se ek nayi class banao (subclass), aur jo methods zaroori hon unko apni marzi se likho (override karo)).
+The `RunHooks` class is used to receive callbacks for lifecycle events across all agents in a run. Subclass it and override the methods you need (AgentHooks se ek nayi class banao (***subclass***), aur jo methods zaroori hon unko apni marzi se likho (***override*** karo)).
 
 > It is useful when multiple agents are used in a single run, and you want to observe or log global events.
 
