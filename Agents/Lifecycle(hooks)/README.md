@@ -15,7 +15,7 @@ This library provides two generic classes, `RunHooks` and `AgentHooks`, for hand
 
 Both `RunHooks` and `AgentHooks` are generic classes that you can subclass to override specific lifecycle methods. Below is an overview of each class and their methods.
 
-### RunHooks
+## RunHooks
 
 The `RunHooks` class is used to receive callbacks for lifecycle events across all agents in a run. Subclass it and override the methods you need (AgentHooks se ek nayi class banao (`subclass`), aur jo methods zaroori hon unko apni marzi se likho (`override` karo)).
 
@@ -64,7 +64,7 @@ class MyRunHooks(RunHooks):
         print(f"Tool {tool.name} finished with result: {result}")
 ```
 
-### AgentHooks
+## AgentHooks
 
 The `AgentHooks` class is used to receive callbacks for lifecycle events specific to a single agent. You can assign an instance of this class to `agent.hooks` to receive events for that agent.
 
