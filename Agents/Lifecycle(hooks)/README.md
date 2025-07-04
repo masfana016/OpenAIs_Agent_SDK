@@ -17,7 +17,7 @@ Both `RunHooks` and `AgentHooks` are generic classes that you can subclass to ov
 
 ### RunHooks
 
-The `RunHooks` class is used to receive callbacks for lifecycle events across all agents in a run. Subclass it and override the methods you need (AgentHooks se ek nayi class banao (***subclass***), aur jo methods zaroori hon unko apni marzi se likho (***override*** karo)).
+The `RunHooks` class is used to receive callbacks for lifecycle events across all agents in a run. Subclass it and override the methods you need (AgentHooks se ek nayi class banao (`subclass`), aur jo methods zaroori hon unko apni marzi se likho (`override` karo)).
 
 > It is useful when multiple agents are used in a single run, and you want to observe or log global events.
 
@@ -29,9 +29,7 @@ The `RunHooks` class is used to receive callbacks for lifecycle events across al
   - `agent`: The agent being invoked.
 
 - **`on_agent_end(context: RunContextWrapper[TContext], agent: Agent[TContext], output: Any) -> None`**  
-  Called when an agent produces its final output.  
-  - `context`: The wrapped context object for the current run.  
-  - `agent`: The agent that produced the output.  
+  Called when an agent produces its final output.   
   - `output`: The final output produced by the agent.
 
 - **`on_handoff(context: RunContextWrapper[TContext], from_agent: Agent[TContext], to_agent: Agent[TContext]) -> None`**  
