@@ -2,14 +2,6 @@
 
 This library provides a `Usage` dataclass to track and aggregate metrics for interactions with a Large Language Model (LLM) API. It monitors the number of requests, input and output tokens, and detailed token information, making it useful for cost tracking, performance optimization, and quota management in agent-based systems.
 
-## Installation
-
-To use this library, ensure you have Python 3.7+ installed. You can include the `Usage` dataclass in your project by copying the source code from `src/agents/usage.py` or installing it via pip (if published to PyPI):
-
-```bash
-pip install usage-tracker
-```
-
 ## Usage
 
 The `Usage` dataclass tracks LLM API usage metrics, including the number of requests, input/output tokens, and detailed token breakdowns. It provides a method to aggregate metrics from multiple `Usage` instances.
@@ -55,9 +47,6 @@ The `Usage` class is defined using Python's `@dataclass` decorator, which automa
   - **Purpose**: Provides a single metric for the overall token usage, which is often used for billing or quota tracking in LLM APIs.
 
 ### Methods
-
-- **`add(self, other: "Usage") -> None`**  
-  Aggregates metrics from another `Usage` instance into the current instance. Updates `requests`, `input_tokens`, `output_tokens`, `total_tokens`, and the detailed token fields (`cached_tokens` and `reasoning_tokens`).
 
 `add(self, other: "Usage") -> None`
   - **Description**: Updates the current Usage instance by adding the metrics from another Usage instance.
