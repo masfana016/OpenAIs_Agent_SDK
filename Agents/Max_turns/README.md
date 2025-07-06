@@ -35,7 +35,7 @@ max_turns=3  # Allows for multi-step reasoning or multiple tool calls
 
 ## Common Issues
 
-### MaxTurnsExceeded Error
+### `MaxTurnsExceeded Error`
 ```
 agents.exceptions.MaxTurnsExceeded: Max turns (1) exceeded
 ```
