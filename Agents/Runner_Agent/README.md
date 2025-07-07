@@ -1,4 +1,4 @@
-# Agent Runner Library
+# Agent Runner
 
 A Python library for running AI agents with flexible control over asynchronous, synchronous, and streaming execution, using large language models (LLMs).
 
@@ -13,8 +13,10 @@ The Agent Runner Library enables you to run AI agents that process inputs, call 
 Use the `Runner` class to execute agents with one of three methods:
 
 - **`Runner.run()`**: Asynchronous, returns a `RunResult` with inputs, guardrail results, and final output. Ideal for async environments like FastAPI.
-- **`Runner.run_sync()`**: Synchronous, wraps `run()` but blocks until complete. Not suitable for async contexts like Jupyter or FastAPI.
-- **`Runner.run_streamed()`**: Asynchronous, streams events (e.g., partial outputs) and returns a `RunResultStreaming` with a `.stream_events()` method for real-time applications.
+- **`Runner.run_sync()`**: Synchronous, wraps around an asynchronous `run()` method (but waits for it to finish) — and it starts a new event loop internally.  it will not work if there's already an event loop (e.g. inside an async function, or in a Jupyter notebook or async context like FastAPI).
+- **`Runner.run_streamed()`**: Asynchronous, streams events (e.g., partial outputs) and returns a `RunResultStreaming`object  with a `.stream_events()` method to recieve sementic events for real-time applications.
+
+> ***Semantic events*** are meaningful updates or actions (e.g., partial outputs, tool calls, or handoffs) generated during an agent's execution, which can be streamed in real-time using `Runner.run_streamed()` to track the workflow's progress.
 
 Example:
 ```python
@@ -32,11 +34,11 @@ async def main():
 ### Agent Loop
 
 All run methods follow the same loop:
-1. The agent processes the input using the LLM.
-2. If a final output (text matching `agent.output_type`, no tool calls) is produced, the loop stops.
-3. If a handoff occurs, the loop continues with the new agent and updated input.
-4. If tools are called, they run, results are appended, and the loop continues.
-5. The loop stops if:
+1. The agent processes the input using the LLM (The agent is invoked with the given input.).
+2. If a final output (text matching `agent.output_type`, no tool calls) is produced, the loop stops (terminates).
+3. If a handoff occurs, the loop continues with the new agent (next turn) and updated input.
+4. If tools are called, they run, results are appended, and the loop continues (next turn).
+5. The loop stops (or raise an exception) if:
    - A final output is produced.
    - The `max_turns` limit is exceeded (raises `MaxTurnsExceeded`).
    - A guardrail is triggered (raises `GuardrailTripwireTriggered`).
@@ -67,7 +69,7 @@ async def main():
 ### Run Configuration
 
 Customize runs with the `RunConfig` dataclass:
-- `model`: Overrides the LLM model for all agents.
+- `model`: The model to use for the entire agent run. If set, will override the model set on every agent.
 - `model_provider`: Specifies the provider (defaults to OpenAI).
 - `model_settings`: Overrides agent-specific settings (e.g., temperature, top_p).
 - `handoff_input_filter`: Filters inputs during handoffs (unless specified by the handoff).
