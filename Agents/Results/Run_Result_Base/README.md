@@ -93,8 +93,36 @@ print(result.last_response_id)  # Prints "resp_001"
 
 ## Methods
 - **`last_agent` (Abstract Property)**: Must be implemented by subclasses to return the last agent used in the run.
-- **`final_output_as(cls: type[T], raise_if_incorrect_type: bool = False) -> T`**: Casts the final output to a specified type. If `raise_if_incorrect_type` is `True`, it raises a `TypeError` if the output is not of the specified type.
+- **`final_output_as(cls: type[T], raise_if_incorrect_type: bool = False) -> T`**: Casts the final output to a specified type. If `raise_if_incorrect_type` is `True`, it raises a `TypeError` if the output is not of the specified (given) type. By default, the cast is only for the typechecker.
+```python
+def final_output_as(self, cls: type[T], raise_if_incorrect_type: bool = False) -> T:
+    """A convenience method to cast the final output to a specific type. By default, the cast
+    is only for the typechecker. If you set `raise_if_incorrect_type` to True, we'll raise a
+    TypeError if the final output is not of the given type.
+
+    Args:
+        cls: The type to cast the final output to.
+        raise_if_incorrect_type: If True, we'll raise a TypeError if the final output is not of
+            the given type.
+
+    Returns:
+        The final output casted to the given type.
+    """
+    if raise_if_incorrect_type and not isinstance(self.final_output, cls):
+        raise TypeError(f"Final output is not of type {cls.__name__}")
+
+    return cast(T, self.final_output)
+```
 - **`to_input_list() -> List[TResponseInputItem]`**: Combines the original input and new items into a single list of input items.
+``` python
+def to_input_list(self) -> list[TResponseInputItem]:
+    """Creates a new input list, merging the original input with all the new items generated."""
+    original_items: list[TResponseInputItem] = ItemHelpers.input_to_new_input_list(self.input)
+    new_items = [item.to_input_item() for item in self.new_items]
+
+    return original_items + new_items
+```
+
 - **`last_response_id` (Property)**: Returns the response ID of the last model response, or `None` if no responses exist.
 
 ## Example Scenario
