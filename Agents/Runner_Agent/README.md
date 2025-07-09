@@ -113,7 +113,7 @@ The `run`, `run_sync`, and `run_streamed` methods offer different ways to wait f
 
 ## Documentation
 
-- [Results Guide](./docs/results.md): Learn about `RunResult` and `RunResultStreaming`.
+- [Results Guide](https://openai.github.io/openai-agents-python/ref/result/#agents.result.RunResult): Learn about `RunResult` and `RunResultStreaming`.
 - [Streaming Guide](./docs/streaming.md): Details on streaming events.
 - [Handoffs](./docs/handoffs.md): Information on agent handoffs and input filters.
 
