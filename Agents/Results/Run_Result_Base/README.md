@@ -122,6 +122,7 @@ def to_input_list(self) -> list[TResponseInputItem]:
 
     return original_items + new_items
 ```
+> This respresents the **"full conversation input history**, which is passed to the model in the next run to provide context.
 
 - **`last_response_id` (Property)**: Returns the response ID of the last model response, or `None` if no responses exist.
 
