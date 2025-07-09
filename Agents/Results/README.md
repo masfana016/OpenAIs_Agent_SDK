@@ -3,9 +3,6 @@
 ## Overview
 The `RunResultBase`, `RunResult`, and `RunResultStreaming` classes are designed to manage the results of an agent's execution, such as an AI model or chatbot, in a Python-based system. These classes, defined in `src/agents/result.py`, provide structured storage for inputs, outputs, and metadata. `RunResultBase` is an abstract base class, while `RunResult` and `RunResultStreaming` are concrete implementations for non-streaming and streaming scenarios, respectively.
 
-## Source Code Location
-- **File**: `src/agents/result.py`
-
 ## Classes
 
 ### RunResultBase
